@@ -1,4 +1,7 @@
-const API_URL = ""; 
+// ตรวจสอบว่าถ้ารันบน localhost ให้ใช้ http://127.0.0.1:8000 แต่ถ้ารันบน Render ให้ใช้ค่าว่าง
+const API_URL = window.location.origin.includes("127.0.0.1") || window.location.origin.includes("localhost")
+    ? "http://127.0.0.1:8000"
+    : (window.location.protocol.startsWith("file") ? "http://127.0.0.1:8000" : "");
 let currentUserId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
