@@ -28,6 +28,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static", name="static"))
+
 # 2. เพิ่ม Route สำหรับเปิดหน้าเว็บ index.html ที่หน้าหลัก "/"
 @app.get("/app", response_class=FileResponse)
 def serve_frontend():
