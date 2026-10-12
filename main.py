@@ -19,7 +19,6 @@ models.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(title="Classroom Directory API")
-app = FastAPI(title="Classroom Directory API")
 # 1. ตั้งค่า CORS ให้ Frontend เรียกใช้งาน API ได้ไม่ติด Block
 app.add_middleware(
     CORSMiddleware,
@@ -39,7 +38,7 @@ def serve_frontend():
 # Security & JWT Configurations
 # ==========================================
 
-SECRET_KEY = "your-super-secret-key-change-this-in-production"
+os.getenv("SECRET_KEY")= "your-super-secret-key-change-this-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
