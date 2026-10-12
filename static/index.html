@@ -6,7 +6,6 @@
     <title>Classroom Directory & Analytics</title>
     <!-- โหลด Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- เชื่อมต่อไฟล์ CSS แยก -->
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 font-sans">
@@ -18,12 +17,8 @@
                 🎓 Classroom Directory
             </h1>
             <div id="auth-status" class="flex gap-3 items-center">
-                <span id="user-display" class="hidden text-sm bg-blue-700 px-3 py-1 rounded-lg"></span>
-                <div id="auth-btn">
-                    <!-- ปุ่มเข้าสู่ระบบจะถูกควบคุมผ่าน JavaScript -->
-                    <button onclick="openLoginModal()" class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium shadow-sm hover:bg-blue-50 transition">
-                        เข้าสู่ระบบ
-                    </button>
+                <div id="auth-btn" class="flex items-center gap-2">
+                    <!-- ควบคุมผ่าน script.js (แสดงปุ่มเข้าสู่ระบบ/สมัครสมาชิก หรือ ข้อมูลผู้ใช้พร้อมปุ่มออกระบบ) -->
                 </div>
             </div>
         </div>
@@ -32,23 +27,20 @@
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto p-6 space-y-6">
         
-        <!-- Stats & API Status Overview -->
+        <!-- Stats & API Status -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <!-- สมาชิกทั้งหมด -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-500 font-medium">สมาชิกทั้งหมด</p>
                     <h3 id="total-users" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
                 </div>
             </div>
-            <!-- ทักษะรวมในระบบ -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-500 font-medium">ทักษะรวมในระบบ</p>
                     <h3 id="total-skills" class="text-2xl font-bold text-slate-800 mt-1">0</h3>
                 </div>
             </div>
-            <!-- สถานะระบบ API -->
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
                 <div>
                     <p class="text-xs text-slate-500 font-medium">สถานะระบบ API</p>
@@ -67,7 +59,7 @@
             </div>
             <div class="flex gap-2 w-full sm:w-auto">
                 <button onclick="searchUsers()" class="flex-1 sm:flex-none bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition">ค้นหา</button>
-                <button onclick="openCreateModal()" class="flex-1 sm:flex-none bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-lg text-sm font-medium transition">สร้าง</button>
+                <button onclick="openSkillModal()" class="flex-1 sm:flex-none bg-blue-50 hover:bg-blue-100 text-blue-600 px-5 py-2.5 rounded-lg text-sm font-medium transition">➕ ใส่/แก้ไขทักษะ</button>
             </div>
         </div>
 
@@ -79,7 +71,6 @@
                     🔄 รีเฟรชข้อมูล
                 </button>
             </div>
-            <!-- Users Grid -->
             <div id="users-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <p class="text-slate-400 text-sm col-span-full text-center py-6">กำลังโหลดข้อมูล...</p>
             </div>
@@ -90,18 +81,16 @@
     <div id="login-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative">
             <h3 class="text-lg font-bold text-slate-800 mb-4">เข้าสู่ระบบ</h3>
-            
             <form id="login-form" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อผู้ใช้งาน (Username)</label>
-                    <input type="text" id="username" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="login-username" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">รหัสผ่าน (Password)</label>
-                    <input type="password" id="password" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="password" id="login-password" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <p id="login-error" class="hidden text-red-500 text-xs font-medium">ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง</p>
-                
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeLoginModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition">ยกเลิก</button>
                     <button type="submit" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition">เข้าสู่ระบบ</button>
@@ -110,7 +99,53 @@
         </div>
     </div>
 
-    <!-- เชื่อมต่อไฟล์ JavaScript แยก -->
+    <!-- Register Modal (สมัครสมาชิก) -->
+    <div id="register-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">สมัครสมาชิกใหม่</h3>
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อ-นามสกุล (Name)</label>
+                    <input type="text" id="reg-name" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">ชื่อผู้ใช้งาน (Username)</label>
+                    <input type="text" id="reg-username" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">รหัสผ่าน (Password)</label>
+                    <input type="password" id="reg-password" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">ทักษะของคุณ (คั่นด้วยจุลภาค เช่น Python, FastAPI)</label>
+                    <input type="text" id="reg-skills" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <p id="register-error" class="hidden text-red-500 text-xs font-medium">ไม่สามารถสมัครสมาชิกได้ (ชื่อผู้ใช้อาจซ้ำ)</p>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeRegisterModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-sm transition">ยืนยันสมัครสมาชิก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Skill Management Modal (ใส่/แก้ไขทักษะ) -->
+    <div id="skill-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative">
+            <h3 class="text-lg font-bold text-slate-800 mb-4">จัดการทักษะของคุณ</h3>
+            <form id="skill-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">ทักษะเพิ่มเติม (คั่นด้วยเครื่องหมายจุลภาค ,)</label>
+                    <input type="text" id="update-skills-input" placeholder="เช่น Docker, Git, Tailwind" required class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeSkillModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-lg transition">ยกเลิก</button>
+                    <button type="submit" class="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition">บันทึกทักษะ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="/static/script.js"></script>
 </body>
 </html>
