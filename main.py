@@ -1,6 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, status
