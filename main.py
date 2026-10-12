@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 import models
 from database import engine, get_db
-
+import os
 
 # สั่งให้ SQLAlchemy สร้างตารางในฐานข้อมูล
 models.Base.metadata.create_all(bind=engine)
